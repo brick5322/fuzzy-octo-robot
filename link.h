@@ -1,5 +1,5 @@
 //Created 2020 by Liu Fubaichuan
-#ifndef NULL 0
+#ifndef NULL
 #define NULL 0
 #endif 
 #define now(p) now = p 
@@ -17,8 +17,9 @@ public:
         last = NULL;
     }
     friend void Node_add(Node*& p, void* input);
-    friend void Node_delete(Node* p);
+    friend Node* Node_delete(Node* p);
     friend void Node_Add_after(Node*&,void*);
+    bool headnode();
     void* Node_forward();
     void* Node_backward();
 private:
@@ -35,12 +36,24 @@ void Node_add(Node*& p, void* input)
     (now->next)->last = now;
     now->data_class = input;
 }
-void Node_delete(Node* p)
+Node* Node_delete(Node* p)
 {
-    p->Node_backward();
-    now->next = p->next;
-    delete p;
-    p = NULL;
+    if (p->last != NULL)
+    {
+        p->Node_backward();
+        (p->next)->last = now;
+        now->next = p->next;
+        delete p;
+        p = NULL;
+        return NULL;
+    }
+    else
+    {
+        (p->next)->last = NULL;
+        Node* a = p->next;
+        delete p;
+        return a;
+    }
 }
 void Node_Add_after(Node*& A,void* input)
 {   
@@ -52,6 +65,10 @@ void Node_Add_after(Node*& A,void* input)
     p->next = now;
     now->last = p;
     s->next = p;
+}
+bool Node::headnode()
+{
+    return !last;
 }
 void* Node::Node_forward()
 {
